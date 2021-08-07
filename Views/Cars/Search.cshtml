@@ -1,0 +1,23 @@
+﻿@model CarShop.ViewModels.Cars.AllCarsViewModel
+
+@{
+    ViewData["Title"] = "All";
+}
+
+<div class="row mt-2 mb-4">
+        <div class="card col-6 col-lg-3 game-card">
+            <img src="@Model.PictureUrl"
+                 class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
+                 data-placement="bottom" title="2017 Ford-GT">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-center">Plate # @Model.PlateNumber</li>
+                    <li class="list-group-item">
+                        <span class="bg-danger col-sm">Remaining Issues: @Model.RemainingIssuesCount</span>
+                        <span class="bg-success col-sm">Fixed Issues: @Model.FixedIssuesCount</span>
+                    </li>
+                </ul>
+                <a asp-controller="Issues" asp-action="AllIssues" asp-route-carId="@Model.Id" class="btn btn-block btn-primary">Check issues</a>
+            </div>
+        </div>    
+</div>

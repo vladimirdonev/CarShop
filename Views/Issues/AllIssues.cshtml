@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CarShop.ViewModels.Issues.AllIssuesViewModel>
+@{
+    var ModelName = Model.Select(x => x.CarModelName).FirstOrDefault();
+    var carId = ViewBag.id;
+}
+<div class="container">
+    <div class="section">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="page-header text-center">
+                    <h2 id="tables">Listed issues for: </h2>
+                    @foreach (var item in Model)
+                    {
+                        <h2 class="font-weight-bold font-italic">@item.CarModelName</h2>
+                        break;
+                    }
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-block btn-primary text-white mb-3" asp-controller="Issues" asp-action="AddIssue" asp-route-carId="@carId">Add a new Issue</a>
+                </div>
+
+                <div class="component">
+                    <table class="table table-hover">
+                        <thead class=" table-active">
+                            <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Is it fixed?</th>
+                                <th scope="col" class="text-center">Fix Issue</th>
+                                <th scope="col" class="text-center">Delete Issue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="table-light">
+                                        <td>@item.Description</td>
+                                        @if (item.IsFixed == true)
+                                        {
+                                            <td>Yes</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Not yet</td>
+                                        }
+                                        <td>
+                                            <a asp-controller="Issues" asp-action="Fix" asp-route-issueId="@item.Id" class="btn btn-block btn-primary text-white mb-3" >Fix Issue</a>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Issues" asp-action="Delete" asp-route-issueId="@item.Id" class="btn btn-block btn-primary text-white mb-3" >Delete Issue</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

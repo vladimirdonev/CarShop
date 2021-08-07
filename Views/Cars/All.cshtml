@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CarShop.ViewModels.Cars.AllCarsViewModel>
+
+@{
+    var SearchTerm = "";
+    ViewData["Title"] = "All";
+}
+
+<h1 class="text-center mt-2">My Cars</h1>
+<form method="get" asp-action="Search">
+    <div class="input-group">
+        <input name="plateNumber" class="form-control" asp-for="@SearchTerm" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" >Search</button>
+        </div>
+    </div>
+</form>
+<div class="row mt-2 mb-4">
+    @foreach (var item in Model)
+    {
+        <div class="card col-6 col-lg-3 game-card">
+            <img src="@item.PictureUrl"
+                 class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
+                 data-placement="bottom" title="2017 Ford-GT">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-center">Plate # @item.PlateNumber</li>
+                    <li class="list-group-item">
+                        <span class="bg-danger col-sm">Remaining Issues: @item.RemainingIssuesCount</span>
+                        <span class="bg-success col-sm">Fixed Issues: @item.FixedIssuesCount</span>
+                    </li>
+                </ul>
+                <a asp-controller="Issues" asp-action="AllIssues" asp-route-carId="@item.Id" class="btn btn-block btn-primary">Check issues</a>
+            </div>
+        </div>
+    }
+
+</div>
