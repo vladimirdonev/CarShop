@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CarShop.ViewModels.Issues.AllIssuesViewModel>
+﻿@model IEnumerable<CarShop.ViewModels.Issues.AllIssuesViewModel> 
 @{
     var ModelName = Model.Select(x => x.CarModelName).FirstOrDefault();
     var carId = ViewBag.id;
@@ -26,9 +26,12 @@
                             <tr>
                                 <th scope="col">Description</th>
                                 <th scope="col">Is it fixed?</th>
-                                <th scope="col" class="text-center">Fix Issue</th>
+                                @if (this.User.IsInRole("Mechanic"))
+                                 {
+                                    <th scope="col" class="text-center">Fix Issue</th>
+                                 }
                                 <th scope="col" class="text-center">Delete Issue</th>
-                            </tr>
+                                </tr>
                         </thead>
                         <tbody>
                                 @foreach (var item in Model)
@@ -43,9 +46,12 @@
                                         {
                                             <td>Not yet</td>
                                         }
-                                        <td>
-                                            <a asp-controller="Issues" asp-action="Fix" asp-route-issueId="@item.Id" class="btn btn-block btn-primary text-white mb-3" >Fix Issue</a>
-                                        </td>
+                                        @if (this.User.IsInRole("Mechanic"))
+                                        {
+                                            <td>
+                                                <a asp-controller="Issues" asp-action="Fix" asp-route-issueId="@item.Id" class="btn btn-block btn-primary text-white mb-3" >Fix Issue</a>
+                                            </td>
+                                        }
                                         <td>
                                             <a asp-controller="Issues" asp-action="Delete" asp-route-issueId="@item.Id" class="btn btn-block btn-primary text-white mb-3" >Delete Issue</a>
                                         </td>

@@ -38,7 +38,6 @@ namespace CarShop.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Mechanic")]
         public IActionResult Fix(string issueId)
         {
             this.issueServise.Fix(issueId);

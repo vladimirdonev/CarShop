@@ -9,7 +9,8 @@ namespace CarShop.ViewModels.Cars
     public class CreateCarViewModel
     {
         [Required]
-        [Range(5,20,ErrorMessage = "Model Must be Betwen 5 and 20 Letters")]
+        [MinLength(5, ErrorMessage = "Model Must be At Least 5 Letters")]
+        [MaxLength(20, ErrorMessage = "Model Must not Еxceeds 20 Letters")]
         public string Model { get; set; }
 
         [Required]

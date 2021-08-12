@@ -21,7 +21,25 @@ namespace CarShop.Services.Cars
             this.mapper = mapper;
         }
 
-        public ICollection<AllCarsViewModel> AllCars(string userId)
+        public ICollection<AllCarsViewModel> AllCars()
+        {
+            var cars = this.db.Cars.ToList();
+            var carViewModels = new List<AllCarsViewModel>();
+
+            foreach (var car in cars)
+            {
+                this.db.Entry(car).Collection(x => x.Issues).Load();
+                var carDTO = new AllCarsViewModel();
+                carDTO = this.mapper.Map<Car, AllCarsViewModel>(car);
+                carDTO.RemainingIssuesCount = car.Issues.Where(x => x.IsFixed == false).Count();
+                carDTO.FixedIssuesCount = car.Issues.Where(x => x.IsFixed == true).Count();
+                carViewModels.Add(carDTO);
+            }
+
+            return carViewModels;
+        }
+
+        public ICollection<AllCarsViewModel> GetCarsByUserId(string userId)
         {
             var cars = this.db.Cars.Where(x => x.OwnerId == userId).ToList();            
             var carViewModels = new List<AllCarsViewModel>();
@@ -51,6 +69,11 @@ namespace CarShop.Services.Cars
         public AllCarsViewModel GetCarByPlateNumber(string plateNumber)
         {
             var car = this.db.Cars.Where(x => x.PlateNumber == plateNumber).FirstOrDefault();
+
+            if (car == null)
+            {
+                return null;
+            }
 
             this.db.Entry(car).Collection(x => x.Issues).Load();
             var carDTO = new AllCarsViewModel();

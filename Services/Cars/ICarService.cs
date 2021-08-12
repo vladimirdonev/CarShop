@@ -8,7 +8,9 @@ namespace CarShop.Services.Cars
 {
     public interface ICarService
     {
-        public ICollection<AllCarsViewModel> AllCars(string userId);
+        public ICollection<AllCarsViewModel> GetCarsByUserId(string userId);
+
+        public ICollection<AllCarsViewModel> AllCars();
 
         public void CreateCar(CreateCarViewModel createCarViewModel,string userId);
 
